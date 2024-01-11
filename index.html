@@ -118,27 +118,36 @@
                     vm.titleKey = 'Mengen Eingabe';
                     vm.isNumpadVisible = false;
                     vm.isValueVisible = false;
-                    vm.isInitialInput = false;
                     vm.overrideValue = false;
+                    vm.hasValueBeenAccepted = false;
 
                     vm.toggleNumpadVisibility = function() {
                         vm.isNumpadVisible = !vm.isNumpadVisible;
                         if (vm.isNumpadVisible) {
-                            vm.isInitialInput = true;
                             vm.overrideValue = true;
                         }
                     };
 
                     vm.nr = function(nr) {
-                        if ((vm.value.includes(',') && vm.value.split(',')[1].length >= 3)) {
+                        if (nr === ',' && vm.value.indexOf(',') !== -1) {
                             return;
                         }
-                        if (vm.isInitialInput && vm.overrideValue) {
+
+                        if (vm.hasValueBeenAccepted && nr !== ',' && !vm.value.includes(',')) {
                             vm.value = '';
-                            vm.overrideValue = false;
+                            vm.hasValueBeenAccepted = false;
                         }
+
+                        if (vm.value.includes(',')) {
+                            let decimalPart = vm.value.split(',')[1];
+                            if (decimalPart && decimalPart.length >= 3) {
+                                return;
+                            }
+                        }
+
                         vm.value += nr.toString();
                     };
+
 
                     vm.komma = function() {
                         if (vm.value.indexOf(',') === -1) {
@@ -152,7 +161,6 @@
 
                     vm.clear = function() {
                         vm.value = '';
-                        vm.hasValueBeenAccepted = false;
                     };
 
                     vm.uebernehmen = function() {
@@ -161,12 +169,9 @@
                         if (floatValue > 0) {
                             vm.savedValue = cleanedValue;
                         }
-                        vm.hasValueBeenAccepted = true;
                         vm.isValueVisible = true;
-                        vm.hasValueBeenAccepted = false;
-                        vm.isInitialInput = true;
                         vm.overrideValue = true;
-
+                        vm.hasValueBeenAccepted = true;
                     };
                 }]);
         })();

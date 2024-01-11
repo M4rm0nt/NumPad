@@ -129,10 +129,6 @@
                     };
 
                     vm.nr = function(nr) {
-                        if (nr === ',' && vm.value.indexOf(',') !== -1) {
-                            return;
-                        }
-
                         if (vm.hasValueBeenAccepted && nr !== ',' && !vm.value.includes(',')) {
                             vm.value = '';
                             vm.hasValueBeenAccepted = false;
@@ -147,7 +143,6 @@
 
                         vm.value += nr.toString();
                     };
-
 
                     vm.komma = function() {
                         if (vm.value.indexOf(',') === -1) {

@@ -133,15 +133,12 @@
                     };
 
                     vm.nr = function(nr) {
-                        if (vm.hasValueBeenAccepted || (vm.value.includes(',') && vm.value.split(',')[1].length >= 3)) {
+                        if ((vm.value.includes(',') && vm.value.split(',')[1].length >= 3)) {
                             return;
                         }
                         if (vm.isInitialInput && vm.overrideValue) {
                             vm.value = '';
                             vm.overrideValue = false;
-                        }
-                        if (vm.value === '0' && nr !== 0) {
-                            vm.value = '';
                         }
                         vm.value += nr.toString();
                     };
@@ -159,8 +156,6 @@
                     vm.clear = function() {
                         vm.value = '';
                         vm.hasValueBeenAccepted = false;
-                        vm.isInitialInput = true;
-                        vm.overrideValue = true;
                     };
 
                     vm.uebernehmen = function() {

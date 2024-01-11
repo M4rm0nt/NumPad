@@ -118,14 +118,11 @@
                     vm.titleKey = 'Mengen Eingabe';
                     vm.isNumpadVisible = false;
                     vm.isValueVisible = false;
-                    vm.hasValueBeenAccepted = false;
                     vm.isInitialInput = false;
                     vm.overrideValue = false;
 
                     vm.toggleNumpadVisibility = function() {
                         vm.isNumpadVisible = !vm.isNumpadVisible;
-                        vm.hasValueBeenAccepted = false;
-
                         if (vm.isNumpadVisible) {
                             vm.isInitialInput = true;
                             vm.overrideValue = true;
@@ -144,7 +141,7 @@
                     };
 
                     vm.komma = function() {
-                        if (!vm.hasValueBeenAccepted && vm.value.indexOf(',') === -1) {
+                        if (vm.value.indexOf(',') === -1) {
                             vm.value += ',';
                         }
                     };
@@ -159,20 +156,18 @@
                     };
 
                     vm.uebernehmen = function() {
-                        if (!vm.hasValueBeenAccepted) {
-                            let cleanedValue = vm.value.replace(/^0+/, '').replace(',', '.');
-                            let floatValue = parseFloat(cleanedValue);
-                            if (!isNaN(floatValue) && floatValue > 0) {
-                                vm.savedValue = cleanedValue;
-                            }
-                            vm.hasValueBeenAccepted = true;
-                            vm.isValueVisible = true;
-                            vm.hasValueBeenAccepted = false;
-                            vm.isInitialInput = true;
-                            vm.overrideValue = true;
+                        let cleanedValue = vm.value.replace(/^0+/, '').replace(',', '.');
+                        let floatValue = parseFloat(cleanedValue);
+                        if (floatValue > 0) {
+                            vm.savedValue = cleanedValue;
                         }
-                    };
+                        vm.hasValueBeenAccepted = true;
+                        vm.isValueVisible = true;
+                        vm.hasValueBeenAccepted = false;
+                        vm.isInitialInput = true;
+                        vm.overrideValue = true;
 
+                    };
                 }]);
         })();
     })();

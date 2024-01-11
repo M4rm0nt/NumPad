@@ -38,13 +38,26 @@ body {
 input[type="text"] {
     width: 100%;
     box-sizing: border-box;
+    margin-top: 15px;
     margin-bottom: 15px;
 }
 
 .button-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    width: 75%;
+    margin-left: 30px;
 }
+
+.button-container button:first-child {
+    margin-right: 10px;
+}
+
+.button-container button:last-child {
+    margin-left: 10px;
+}
+
 
 button {
     width: 70%;

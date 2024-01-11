@@ -4,7 +4,6 @@ angular.module('marmont.ui', [])
 
         vm.value = '';
         vm.savedValue = '';
-        vm.titleKey = 'Mengen Eingabe';
         vm.isNumpadVisible = false;
         vm.isValueVisible = false;
         vm.overrideValue = false;

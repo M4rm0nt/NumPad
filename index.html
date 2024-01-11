@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="marmont.ui">
+<head>
+    <meta charset="UTF-8">
+    <title>Mengeneingabe Validierung</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .button, input[type="text"], button {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover, button:hover {
+            background-color: #eaeaea;
+            cursor: pointer;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            width: 70%;
+            background-color: #fafafa;
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 90%;
+                margin: 20px auto;
+            }
+
+            .button-container button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="NumpadController as ctrl">
+<div class="card">
+    <button ng-click="ctrl.toggleNumpadVisibility()">Numpad {{ ctrl.isNumpadVisible ? 'schließen' : 'öffnen' }}</button>
+    <div ng-show="ctrl.isNumpadVisible">
+        <h1>{{ ctrl.titleKey }}</h1>
+        <input type="text" ng-model="ctrl.value" placeholder="Menge eingeben" />
+        <div class="grid-container">
+            <button class="button" ng-click="ctrl.nr(7)">7</button>
+            <button class="button" ng-click="ctrl.nr(8)">8</button>
+            <button class="button" ng-click="ctrl.nr(9)">9</button>
+            <button class="button" ng-click="ctrl.nr(4)">4</button>
+            <button class="button" ng-click="ctrl.nr(5)">5</button>
+            <button class="button" ng-click="ctrl.nr(6)">6</button>
+            <button class="button" ng-click="ctrl.nr(1)">1</button>
+            <button class="button" ng-click="ctrl.nr(2)">2</button>
+            <button class="button" ng-click="ctrl.nr(3)">3</button>
+            <button class="button" ng-click="ctrl.del()">del</button>
+            <button class="button" ng-click="ctrl.nr(0)">0</button>
+            <button ng-click="ctrl.komma()">,</button>
+        </div>
+        <div class="button-container">
+            <button class="button" ng-click="ctrl.clear()">clear</button>
+            <button ng-click="ctrl.uebernehmen()">Übernehmen</button>
+        </div>
+    </div>
+    <div ng-show="ctrl.isValueVisible">
+        <p>Eingegebener Wert: {{ ctrl.savedValue }}</p>
+    </div>
+</div>
+
+<script>
+    (function() {
+        angular.module('marmont.ui', [])
+            .controller('NumpadController', ['$scope', function($scope) {
+                let vm = this;
+
+                vm.value = '';
+                vm.savedValue = '';
+                vm.titleKey = 'Zahl Eingabe';
+                vm.isNumpadVisible = false;
+                vm.isValueVisible = false;
+                vm.hasValueBeenAccepted = false;
+
+                vm.toggleNumpadVisibility = function() {
+                    vm.isNumpadVisible = !vm.isNumpadVisible;
+                    vm.hasValueBeenAccepted = false;
+                };
+
+                vm.nr = function(nr) {
+                    if (vm.hasValueBeenAccepted || (vm.value.includes(',') && vm.value.split(',')[1].length >= 3)) {
+                        return;
+                    }
+                    if (vm.value === '0' && nr !== 0) {
+                        vm.value = '';
+                    }
+                    vm.value += nr.toString();
+                };
+
+                vm.komma = function() {
+                    if (!vm.hasValueBeenAccepted && vm.value.indexOf(',') === -1) {
+                        vm.value += ',';
+                    }
+                };
+
+                vm.del = function() {
+                    vm.value = vm.value.slice(0, -1);
+                };
+
+                vm.clear = function() {
+                    vm.value = '';
+                    vm.hasValueBeenAccepted = false;
+                };
+
+                vm.uebernehmen = function() {
+                    if (!vm.hasValueBeenAccepted) {
+                        let cleanedValue = vm.value.replace(/^0+/, '').replace(',', '.');
+                        let floatValue = parseFloat(cleanedValue);
+                        if (!isNaN(floatValue) && floatValue > 0) {
+                            vm.savedValue = cleanedValue;
+                        }
+                        vm.hasValueBeenAccepted = true;
+                        vm.isValueVisible = true;
+                        vm.hasValueBeenAccepted = false;
+                    }
+                };
+
+            }]);
+    })();
+</script>
+</body>
+</html>

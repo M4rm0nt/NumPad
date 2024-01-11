@@ -2,7 +2,7 @@
 <html lang="en" ng-app="marmont.ui">
 <head>
     <meta charset="UTF-8">
-    <title>Mengeneingabe Validierung</title>
+    <title>Mengeneingabe</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -65,7 +65,7 @@
             }
 
             .button-container button {
-                width: 100%;
+                width: 60%;
                 margin-bottom: 10px;
             }
 
@@ -108,61 +108,78 @@
 
 <script>
     (function() {
-        angular.module('marmont.ui', [])
-            .controller('NumpadController', ['$scope', function($scope) {
-                let vm = this;
+        (function() {
+            angular.module('marmont.ui', [])
+                .controller('NumpadController', ['$scope', function($scope) {
+                    let vm = this;
 
-                vm.value = '';
-                vm.savedValue = '';
-                vm.titleKey = 'Mengen Eingabe';
-                vm.isNumpadVisible = false;
-                vm.isValueVisible = false;
-                vm.hasValueBeenAccepted = false;
-
-                vm.toggleNumpadVisibility = function() {
-                    vm.isNumpadVisible = !vm.isNumpadVisible;
-                    vm.hasValueBeenAccepted = false;
-                };
-
-                vm.nr = function(nr) {
-                    if (vm.hasValueBeenAccepted || (vm.value.includes(',') && vm.value.split(',')[1].length >= 3)) {
-                        return;
-                    }
-                    if (vm.value === '0' && nr !== 0) {
-                        vm.value = '';
-                    }
-                    vm.value += nr.toString();
-                };
-
-                vm.komma = function() {
-                    if (!vm.hasValueBeenAccepted && vm.value.indexOf(',') === -1) {
-                        vm.value += ',';
-                    }
-                };
-
-                vm.del = function() {
-                    vm.value = vm.value.slice(0, -1);
-                };
-
-                vm.clear = function() {
                     vm.value = '';
+                    vm.savedValue = '';
+                    vm.titleKey = 'Mengen Eingabe';
+                    vm.isNumpadVisible = false;
+                    vm.isValueVisible = false;
                     vm.hasValueBeenAccepted = false;
-                };
+                    vm.isInitialInput = false;
+                    vm.overrideValue = false;
 
-                vm.uebernehmen = function() {
-                    if (!vm.hasValueBeenAccepted) {
-                        let cleanedValue = vm.value.replace(/^0+/, '').replace(',', '.');
-                        let floatValue = parseFloat(cleanedValue);
-                        if (!isNaN(floatValue) && floatValue > 0) {
-                            vm.savedValue = cleanedValue;
-                        }
-                        vm.hasValueBeenAccepted = true;
-                        vm.isValueVisible = true;
+                    vm.toggleNumpadVisibility = function() {
+                        vm.isNumpadVisible = !vm.isNumpadVisible;
                         vm.hasValueBeenAccepted = false;
-                    }
-                };
 
-            }]);
+                        if (vm.isNumpadVisible) {
+                            vm.isInitialInput = true;
+                            vm.overrideValue = true;
+                        }
+                    };
+
+                    vm.nr = function(nr) {
+                        if (vm.hasValueBeenAccepted || (vm.value.includes(',') && vm.value.split(',')[1].length >= 3)) {
+                            return;
+                        }
+                        if (vm.isInitialInput && vm.overrideValue) {
+                            vm.value = '';
+                            vm.overrideValue = false;
+                        }
+                        if (vm.value === '0' && nr !== 0) {
+                            vm.value = '';
+                        }
+                        vm.value += nr.toString();
+                    };
+
+                    vm.komma = function() {
+                        if (!vm.hasValueBeenAccepted && vm.value.indexOf(',') === -1) {
+                            vm.value += ',';
+                        }
+                    };
+
+                    vm.del = function() {
+                        vm.value = vm.value.slice(0, -1);
+                    };
+
+                    vm.clear = function() {
+                        vm.value = '';
+                        vm.hasValueBeenAccepted = false;
+                        vm.isInitialInput = true;
+                        vm.overrideValue = true;
+                    };
+
+                    vm.uebernehmen = function() {
+                        if (!vm.hasValueBeenAccepted) {
+                            let cleanedValue = vm.value.replace(/^0+/, '').replace(',', '.');
+                            let floatValue = parseFloat(cleanedValue);
+                            if (!isNaN(floatValue) && floatValue > 0) {
+                                vm.savedValue = cleanedValue;
+                            }
+                            vm.hasValueBeenAccepted = true;
+                            vm.isValueVisible = true;
+                            vm.hasValueBeenAccepted = false;
+                            vm.isInitialInput = true;
+                            vm.overrideValue = true;
+                        }
+                    };
+
+                }]);
+        })();
     })();
 </script>
 </body>

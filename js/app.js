@@ -17,10 +17,12 @@ angular.module('marmont.ui', [])
         };
 
         vm.nr = function(nr) {
-            if (vm.hasValueBeenAccepted && nr !== ',' && !vm.value.includes(',')) {
+
+            if (vm.hasValueBeenAccepted && vm.overrideValue) {
                 vm.value = '';
-                vm.hasValueBeenAccepted = false;
             }
+
+            vm.hasValueBeenAccepted = false;
 
             if (vm.value.includes(',')) {
                 let decimalPart = vm.value.split(',')[1];
@@ -34,12 +36,14 @@ angular.module('marmont.ui', [])
 
         vm.del = function() {
             vm.value = vm.value.slice(0, -1);
+            vm.hasValueBeenAccepted = false;
         };
 
         vm.komma = function() {
             if (vm.value.indexOf(',') === -1) {
                 vm.value += ',';
             }
+            vm.hasValueBeenAccepted = false;
         };
 
         vm.clear = function() {

@@ -48,6 +48,7 @@ angular.module('marmont.ui', [])
 
         vm.clear = function() {
             vm.value = '';
+            vm.savedValue = '';
         };
 
         vm.uebernehmen = function() {

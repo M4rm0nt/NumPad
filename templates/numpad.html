@@ -1,4 +1,4 @@
-<button ng-click="ctrl.toggleNumpadVisibility()" class="toggle">Numpad {{ ctrl.isNumpadVisible ? 'schließen' : 'öffnen' }}</button>
+<button ng-click="ctrl.toggleNumpadVisibility()" class="toggle">{{ ctrl.isNumpadVisible ? 'schließen' : 'öffnen' }}</button>
 
 <div class="card">
     <div ng-show="ctrl.isNumpadVisible">
@@ -19,12 +19,11 @@
         </div>
         <div class="button-container">
             <button class="button" ng-click="ctrl.clear()">clear</button>
-            <button ng-click="ctrl.uebernehmen()">Übernehmen</button>
+            <button ng-click="ctrl.uebernehmen()">übernehmen</button>
         </div>
     </div>
 </div>
 
-<div ng-show="ctrl.isValueVisible" class="result">
+<div ng-show="ctrl.isValueVisible && ctrl.isNumpadVisible && ctrl.savedValue !== ''" class="result">
     <p>Eingegebener Wert: {{ ctrl.savedValue }}</p>
 </div>
-

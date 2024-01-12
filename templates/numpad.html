@@ -1,25 +1,30 @@
-<button ng-click="ctrl.toggleNumpadVisibility()">Numpad {{ ctrl.isNumpadVisible ? 'schließen' : 'öffnen' }}</button>
-<div ng-show="ctrl.isNumpadVisible">
-    <input type="text" ng-model="ctrl.value" placeholder="Menge eingeben" />
-    <div class="grid-container">
-        <button class="button" ng-click="ctrl.nr(7)">7</button>
-        <button class="button" ng-click="ctrl.nr(8)">8</button>
-        <button class="button" ng-click="ctrl.nr(9)">9</button>
-        <button class="button" ng-click="ctrl.nr(4)">4</button>
-        <button class="button" ng-click="ctrl.nr(5)">5</button>
-        <button class="button" ng-click="ctrl.nr(6)">6</button>
-        <button class="button" ng-click="ctrl.nr(1)">1</button>
-        <button class="button" ng-click="ctrl.nr(2)">2</button>
-        <button class="button" ng-click="ctrl.nr(3)">3</button>
-        <button class="button" ng-click="ctrl.del()">del</button>
-        <button class="button" ng-click="ctrl.nr(0)">0</button>
-        <button class="button" ng-click="ctrl.komma()">,</button>
-    </div>
-    <div class="button-container">
-        <button class="button" ng-click="ctrl.clear()">clear</button>
-        <button ng-click="ctrl.uebernehmen()">Übernehmen</button>
+<button ng-click="ctrl.toggleNumpadVisibility()" class="toggle">Numpad {{ ctrl.isNumpadVisible ? 'schließen' : 'öffnen' }}</button>
+
+<div class="card">
+    <div ng-show="ctrl.isNumpadVisible">
+        <input type="text" ng-model="ctrl.value" placeholder="Menge eingeben" />
+        <div class="grid-container">
+            <button class="button" ng-click="ctrl.nr(7)">7</button>
+            <button class="button" ng-click="ctrl.nr(8)">8</button>
+            <button class="button" ng-click="ctrl.nr(9)">9</button>
+            <button class="button" ng-click="ctrl.nr(4)">4</button>
+            <button class="button" ng-click="ctrl.nr(5)">5</button>
+            <button class="button" ng-click="ctrl.nr(6)">6</button>
+            <button class="button" ng-click="ctrl.nr(1)">1</button>
+            <button class="button" ng-click="ctrl.nr(2)">2</button>
+            <button class="button" ng-click="ctrl.nr(3)">3</button>
+            <button class="button" ng-click="ctrl.del()">del</button>
+            <button class="button" ng-click="ctrl.nr(0)">0</button>
+            <button class="button" ng-click="ctrl.komma()">,</button>
+        </div>
+        <div class="button-container">
+            <button class="button" ng-click="ctrl.clear()">clear</button>
+            <button ng-click="ctrl.uebernehmen()">Übernehmen</button>
+        </div>
     </div>
 </div>
-<div ng-show="ctrl.isValueVisible">
+
+<div ng-show="ctrl.isValueVisible" class="result">
     <p>Eingegebener Wert: {{ ctrl.savedValue }}</p>
 </div>
+

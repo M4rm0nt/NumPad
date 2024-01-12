@@ -17,7 +17,6 @@ angular.module('marmont.ui', [])
         };
 
         vm.nr = function(nr) {
-
             if (vm.hasValueBeenAccepted && vm.overrideValue) {
                 vm.value = '';
             }
@@ -31,7 +30,11 @@ angular.module('marmont.ui', [])
                 }
             }
 
-            vm.value += nr.toString();
+            if (vm.value === '0,') {
+                vm.value = '0,' + nr.toString();
+            } else {
+                vm.value += nr.toString();
+            }
         };
 
         vm.del = function() {
@@ -41,7 +44,11 @@ angular.module('marmont.ui', [])
 
         vm.komma = function() {
             if (vm.value.indexOf(',') === -1) {
-                vm.value += ',';
+                if (vm.value.length === 0) {
+                    vm.value = '0,';
+                } else {
+                    vm.value += ',';
+                }
             }
             vm.hasValueBeenAccepted = false;
         };
@@ -52,13 +59,14 @@ angular.module('marmont.ui', [])
         };
 
         vm.uebernehmen = function() {
-            let cleanedValue = vm.value.replace(/^0+/, '').replace(',', '.');
+            let cleanedValue = vm.value.replace(',', '.');
             let floatValue = parseFloat(cleanedValue);
-            if (floatValue > 0) {
-                vm.savedValue = cleanedValue;
+            if (floatValue >= 0) {
+                vm.savedValue = vm.value;
             }
             vm.isValueVisible = true;
             vm.overrideValue = true;
             vm.hasValueBeenAccepted = true;
         };
+
     }]);

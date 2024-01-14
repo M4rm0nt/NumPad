@@ -1,8 +1,8 @@
 <button ng-click="ctrl.toggleNumpadVisibility()" class="toggle">{{ ctrl.isNumpadVisible ? 'schließen' : 'öffnen' }}</button>
 
 <div class="card">
-    <div ng-show="ctrl.isNumpadVisible">
-        <input type="text" ng-model="ctrl.value" placeholder="Menge eingeben" />
+    <div ng-show="ctrl.isNumpadVisible && !ctrl.isAccessGranted">
+        <input type="text" ng-model="ctrl.value" placeholder="Pin eingeben" />
         <div class="grid-container">
             <button class="button" ng-click="ctrl.nr(7)">7</button>
             <button class="button" ng-click="ctrl.nr(8)">8</button>

@@ -1,13 +1,14 @@
 angular.module('marmont.ui', [])
-    .controller('NumpadController', ['$scope', function($scope) {
+    .controller('PinpadController', ['$scope', function($scope) {
         let vm = this;
 
         vm.value = '';
-        vm.savedValue = '';
+        vm.savedPin = '1234'; // Hier kannst du den gewünschten PIN setzen
         vm.isNumpadVisible = false;
         vm.isValueVisible = false;
         vm.overrideValue = false;
         vm.hasValueBeenAccepted = false;
+        vm.isAccessGranted = false;
 
         vm.toggleNumpadVisibility = function() {
             vm.isNumpadVisible = !vm.isNumpadVisible;
@@ -59,14 +60,35 @@ angular.module('marmont.ui', [])
         };
 
         vm.uebernehmen = function() {
-            let cleanedValue = vm.value.replace(',', '.');
-            let floatValue = parseFloat(cleanedValue);
-            if (floatValue >= 0) {
-                vm.savedValue = vm.value;
+            if (vm.value === vm.savedPin) {
+                vm.isAccessGranted = true;
+                vm.savedValue = 'Zugang gewährt!';
+            } else {
+                vm.savedValue = 'Falscher PIN!';
             }
             vm.isValueVisible = true;
             vm.overrideValue = true;
             vm.hasValueBeenAccepted = true;
+        };
+
+        vm.goBack = function() {
+            vm.isAccessGranted = false;
+            vm.savedValue = '';
+            vm.value = '';
+            vm.isValueVisible = false;
+            vm.overrideValue = false;
+            vm.hasValueBeenAccepted = false;
+        };
+
+        vm.addTask = function() {
+            if (vm.newTask && vm.newTask.trim() !== '') {
+                vm.todoList.push(vm.newTask);
+                vm.newTask = '';
+            }
+        };
+
+        vm.clearTasks = function() {
+            vm.todoList = [];
         };
 
     }]);

@@ -2,11 +2,11 @@
 <html lang="en" ng-app="marmont.ui">
 <head>
     <meta charset="UTF-8">
-    <title>Mengeneingabe</title>
+    <title>Pin - Eingabe</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body ng-controller="NumpadController as ctrl">
-<div class="card" ng-include="'templates/numpad.html'"></div>
+<body ng-controller="PinpadController as ctrl">
+<div class="card" ng-include="ctrl.isAccessGranted ? 'templates/access-granted.html' : 'templates/pinpad.html'"></div>
 <script src="js/angular.min.js"></script>
 <script src="js/app.js"></script>
 </body>
